@@ -4,6 +4,12 @@ const User = use('App/Models/User')
 const Mail = use('Mail')
 
 class UserController {
+    async index () {
+        const users = await User.query().fetch()
+
+        return users
+    }
+
     async store ({ request }) {
         try {
             const data = request.only(['name', 'email', 'password'])
@@ -21,6 +27,23 @@ class UserController {
         } catch (err) {
             return response.status(err.status).send({ error: { message: "Algo não deu certo com o seu registro" } })
         }
+    }
+
+    async update ({ params, request }) {
+        const user = await User.findOrFail(params.id)
+        const data = request.only(['name', 'email'])
+
+        user.merge(data)
+
+        await user.save()
+
+        return user
+    }
+
+    async destroy ({ params }) {
+        const user = await User.findOrFail(params.id)
+
+        await user.delete()
     }
 }
 
