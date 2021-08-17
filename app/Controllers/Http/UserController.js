@@ -29,6 +29,14 @@ class UserController {
         }
     }
 
+    async show ({ params }) {
+        const user = await User.findOrFail(params.id)
+        
+        await user.load('bets')
+        
+        return user
+    }
+
     async update ({ params, request }) {
         const user = await User.findOrFail(params.id)
         const data = request.only(['name', 'email'])

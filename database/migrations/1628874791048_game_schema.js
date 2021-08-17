@@ -10,10 +10,10 @@ class GameSchema extends Schema {
       table.string('type').notNullable().unique()
       table.text('description').notNullable()
       table.integer('range').notNullable()
-      table.float('price', 2).notNullable()
+      table.float('price').notNullable()
       table.integer('max_number').notNullable()
       table.string('color').notNullable()
-      table.float('min_cart_value', 2).notNullable()
+      table.float('min_cart_value').notNullable()
       table.timestamps()
     })
   }
