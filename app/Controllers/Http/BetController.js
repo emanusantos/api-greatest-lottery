@@ -1,8 +1,6 @@
 'use strict'
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
-/** @typedef {import('@adonisjs/framework/src/View')} View */
+const Bet = use('App/Models/Bet')
 
 /**
  * Resourceful controller for interacting with bets
@@ -17,30 +15,17 @@ class BetController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index ({ params, auth }) {
+    const bets = await Bet.query().where('user_id', auth.user.id).fetch()
+
+    return bets
   }
 
-  /**
-   * Render a form to be used for creating a new bet.
-   * GET bets/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
+  async store ({ request, auth }) {
+    const data = request.only(['numbers', 'price'])
+    const bet = await Bet.create({ user_id: auth.user.id, ...data })
 
-  /**
-   * Create/save a new bet.
-   * POST bets
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async store ({ request, response }) {
+    return bet
   }
 
   /**
