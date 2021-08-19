@@ -2,6 +2,7 @@
 
 const Bet = use('App/Models/Bet')
 const Game = use('App/Models/Game')
+const Mail = use('Mail')
 
 /**
  * Resourceful controller for interacting with bets
@@ -32,6 +33,13 @@ class BetController {
       await Bet.create({ user_id: auth.user.id, game_id: bet.game_id, price, ...bet });
       responseData.push({ user_id: auth.user.id, game_id: bet.game_id, price, ...bet });
     }
+
+    await Mail.send(['emails.new_bet'], { name: auth.user.name }, message => {
+      message
+      .to(auth.user.email)
+      .from('emanuel.santos@luby.software', 'Emanuel | Luby Software')
+      .subject('TGL - Nova aposta')
+  })
 
     return {...responseData}
   }
