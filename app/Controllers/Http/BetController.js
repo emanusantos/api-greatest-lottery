@@ -1,6 +1,7 @@
 'use strict'
 
 const Bet = use('App/Models/Bet')
+const Game = use('App/Models/Game')
 
 /**
  * Resourceful controller for interacting with bets
@@ -15,17 +16,24 @@ class BetController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ params, auth }) {
-    const bets = await Bet.query().where('user_id', auth.user.id).fetch()
+  async index ({ auth }) {
+    const bets = await Bet.query().where('user_id', auth.user.id).with('game').fetch()
 
     return bets
   }
 
   async store ({ request, auth }) {
-    const data = request.only(['numbers', 'price'])
-    const bet = await Bet.create({ user_id: auth.user.id, ...data })
+    const data = request.only(['betCart'])
+    let responseData = []
 
-    return bet
+    for (let bet of data.betCart) {
+      let currentGame = await Game.findByOrFail("id", bet.game_id)
+      let price = currentGame.price
+      await Bet.create({ ...bet, user_id: auth.user.id, game_id: bet.game_id, price });
+      responseData.push({ ...bet, user_id: auth.user.id, game_id: bet.game_id, price });
+    }
+
+    return {...responseData}
   }
 
   /**
