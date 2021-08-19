@@ -19,10 +19,10 @@ class ForgotPasswordController {
                 message
                 .to(user.email)
                 .from('emanuel.santos@luby.software', 'Emanuel | Luby Software')
-                .subject('Recuperação de senha')
+                .subject('Password recover')
             })
         } catch (err) {
-            return response.status(err.status).send({ error: { message: "Algo não deu certo. Esse e-mail existe?" } })
+            return response.status(err.status).send({ error: { message: "Something went wrong. Does this email exist?" } })
         }
     }
 

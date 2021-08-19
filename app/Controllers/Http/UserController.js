@@ -20,12 +20,12 @@ class UserController {
                 message
                 .to(user.email)
                 .from('emanuel.santos@luby.software', 'Emanuel | Luby Software')
-                .subject('Boas vindas ao TGL')
+                .subject('Welcome to TGL')
             })
 
             return user
         } catch (err) {
-            return response.status(err.status).send({ error: { message: "Algo não deu certo com o seu registro" } })
+            return response.status(err.status).send({ error: { message: "Something went wrong with your registration" } })
         }
     }
 

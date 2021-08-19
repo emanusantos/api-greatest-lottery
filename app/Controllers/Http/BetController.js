@@ -38,7 +38,7 @@ class BetController {
       message
       .to(auth.user.email)
       .from('emanuel.santos@luby.software', 'Emanuel | Luby Software')
-      .subject('TGL - Nova aposta')
+      .subject('TGL - New Bet')
   })
 
     return {...responseData}
