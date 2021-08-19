@@ -28,7 +28,14 @@ Route.resource('games', 'GameController').apiOnly().validator(new Map(
     ]
 ))
 Route.group(() => {
-    Route.resource('bets', 'BetController').apiOnly()
+    Route.resource('bets', 'BetController').apiOnly().validator(new Map(
+        [
+            [
+                ['bets.store'], 
+                ['Bet']
+            ]
+        ]
+    ))
 }).middleware(['auth'])
 
 
