@@ -29,8 +29,8 @@ class BetController {
     for (let bet of data.betCart) {
       let currentGame = await Game.findByOrFail("id", bet.game_id)
       let price = currentGame.price
-      await Bet.create({ ...bet, user_id: auth.user.id, game_id: bet.game_id, price });
-      responseData.push({ ...bet, user_id: auth.user.id, game_id: bet.game_id, price });
+      await Bet.create({ user_id: auth.user.id, game_id: bet.game_id, price, ...bet });
+      responseData.push({ user_id: auth.user.id, game_id: bet.game_id, price, ...bet });
     }
 
     return {...responseData}
@@ -45,30 +45,10 @@ class BetController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async show ({ params, request, response, view }) {
-  }
+  async show ({ params }) {
+    const bet = await Bet.findOrFail(params.id)
 
-  /**
-   * Render a form to update an existing bet.
-   * GET bets/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit ({ params, request, response, view }) {
-  }
-
-  /**
-   * Update bet details.
-   * PUT or PATCH bets/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update ({ params, request, response }) {
+    return bet
   }
 
   /**
@@ -79,7 +59,10 @@ class BetController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, request, response }) {
+  async destroy ({ params }) {
+    const bet = await Bet.findByOrFail(params.id)
+
+    await bet.delete()
   }
 }
 
