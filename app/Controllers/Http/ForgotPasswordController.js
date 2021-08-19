@@ -35,7 +35,7 @@ class ForgotPasswordController {
             const tokenExpired = moment().subtract('2', 'days').isAfter(user.token_created_at)
 
             if (tokenExpired) {
-                return response.status(401).send({ error: { message: "O token de recuperação está expirado" } })
+                return response.status(401).send({ error: { message: "The recovery token is expired." } })
             }
 
             user.token = null
@@ -44,7 +44,7 @@ class ForgotPasswordController {
 
             await user.save()
         } catch (err) {
-            return response.status(err.status).send({ error: { message: "Algo deu errado ao resetar sua senha." } })
+            return response.status(err.status).send({ error: { message: "Something went wrong when resetting your password." } })
         }
     }
 }
