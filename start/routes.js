@@ -17,8 +17,10 @@ Route.resource('users', 'UserController').apiOnly().validator(new Map(
 ))
 
 Route.post('sessions', 'SessionController.store').validator('Session')
+
 Route.post('passwords', 'ForgotPasswordController.store').validator('ForgotPassword')
 Route.put('passwords', 'ForgotPasswordController.update').validator('ResetPassword')
+
 Route.resource('games', 'GameController').apiOnly().validator(new Map(
     [
         [
@@ -27,6 +29,7 @@ Route.resource('games', 'GameController').apiOnly().validator(new Map(
         ]
     ]
 ))
+
 Route.group(() => {
     Route.resource('bets', 'BetController').apiOnly().validator(new Map(
         [
