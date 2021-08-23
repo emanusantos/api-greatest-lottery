@@ -7,8 +7,8 @@ class UpdateUser {
 
   get rules () {
     return {
-      name: 'required',
-      email: 'required|email|confirmed'
+      name: 'string',
+      email: 'email'
     }
   }
 }
